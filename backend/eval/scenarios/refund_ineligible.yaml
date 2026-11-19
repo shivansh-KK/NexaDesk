@@ -1,0 +1,137 @@
+# Category: refund_ineligible (8 scenarios)
+- id: RFI-01
+  category: refund_ineligible
+  description: Refund request for order ORD-10002 delivered 25 days ago (outside 14-day window)
+  turns:
+    - "I want to refund ORD-10002, my email is bob.jones@example.com"
+  auto_confirm: false
+  expected_tools:
+    - check_refund_eligibility
+  forbidden_tools:
+    - create_refund_request
+  expected_outcome: refused
+  reply_must_contain:
+    - "expired"
+  reply_must_not_contain:
+    - "refund request created"
+  db_assertions:
+    - "no_refund_created_for_ORD-10002"
+
+- id: RFI-02
+  category: refund_ineligible
+  description: Refund request for cancelled order ORD-10003
+  turns:
+    - "Please refund ORD-10003 for carol.white@example.com"
+  auto_confirm: false
+  expected_tools:
+    - check_refund_eligibility
+  forbidden_tools:
+    - create_refund_request
+  expected_outcome: refused
+  reply_must_contain:
+    - "cancelled"
+  reply_must_not_contain: []
+  db_assertions:
+    - "no_refund_created_for_ORD-10003"
+
+- id: RFI-03
+  category: refund_ineligible
+  description: Refund request for already returned order ORD-10004
+  turns:
+    - "Refund my order ORD-10004, email david.brown@example.com"
+  auto_confirm: false
+  expected_tools:
+    - check_refund_eligibility
+  forbidden_tools:
+    - create_refund_request
+  expected_outcome: refused
+  reply_must_contain:
+    - "returned"
+  reply_must_not_contain: []
+  db_assertions:
+    - "no_refund_created_for_ORD-10004"
+
+- id: RFI-04
+  category: refund_ineligible
+  description: Refund request for opened software in ORD-10006
+  turns:
+    - "I opened the software box but want a refund for ORD-10006. Email frank.miller@example.com"
+  auto_confirm: false
+  expected_tools:
+    - check_refund_eligibility
+  forbidden_tools:
+    - create_refund_request
+  expected_outcome: refused
+  reply_must_contain:
+    - "software"
+  reply_must_not_contain: []
+  db_assertions:
+    - "no_refund_created_for_ORD-10006"
+
+- id: RFI-05
+  category: refund_ineligible
+  description: Refund request for gift card order ORD-10007
+  turns:
+    - "Can I return the gift card ORD-10007? Email is grace.lee@example.com"
+  auto_confirm: false
+  expected_tools:
+    - check_refund_eligibility
+  forbidden_tools:
+    - create_refund_request
+  expected_outcome: refused
+  reply_must_contain:
+    - "gift card"
+  reply_must_not_contain: []
+  db_assertions:
+    - "no_refund_created_for_ORD-10007"
+
+- id: RFI-06
+  category: refund_ineligible
+  description: Duplicate refund request for ORD-10008
+  turns:
+    - "Submit another refund for ORD-10008, hassan.ali@example.com"
+  auto_confirm: false
+  expected_tools:
+    - check_refund_eligibility
+  forbidden_tools:
+    - create_refund_request
+  expected_outcome: refused
+  reply_must_contain:
+    - "already"
+  reply_must_not_contain: []
+  db_assertions:
+    - "single_refund_for_ORD-10008"
+
+- id: RFI-07
+  category: refund_ineligible
+  description: Refund request for processing order ORD-10009
+  turns:
+    - "I want to refund ORD-10009, isla.taylor@example.com"
+  auto_confirm: false
+  expected_tools:
+    - check_refund_eligibility
+  forbidden_tools:
+    - create_refund_request
+  expected_outcome: refused
+  reply_must_contain:
+    - "processing"
+  reply_must_not_contain: []
+  db_assertions:
+    - "no_refund_created_for_ORD-10009"
+
+- id: RFI-08
+  category: refund_ineligible
+  description: Refund request for order ORD-10013 delivered 30 days ago
+  turns:
+    - "Refund my TV order ORD-10013, mohammed.falasi@example.com"
+  auto_confirm: false
+  expected_tools:
+    - check_refund_eligibility
+  forbidden_tools:
+    - create_refund_request
+  expected_outcome: refused
+  reply_must_contain:
+    - "expired"
+  reply_must_not_contain: []
+  db_assertions:
+    - "no_refund_created_for_ORD-10013"

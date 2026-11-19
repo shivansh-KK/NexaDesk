@@ -1,0 +1,135 @@
+# Category: refund_eligible (8 scenarios)
+- id: RFE-01
+  category: refund_eligible
+  description: Refund eligibility check and submission for ORD-10001
+  turns:
+    - "Can I return order ORD-10001? My email is alice.smith@example.com"
+  auto_confirm: false
+  expected_tools:
+    - check_refund_eligibility
+  forbidden_tools:
+    - escalate_to_human
+  expected_outcome: resolved
+  reply_must_contain:
+    - "eligible"
+  reply_must_not_contain:
+    - "ineligible"
+  db_assertions:
+    - "no_refund_created"
+
+- id: RFE-02
+  category: refund_eligible
+  description: Refund submission with confirmation for ORD-10001
+  turns:
+    - "Please refund my order ORD-10001, alice.smith@example.com. Reason: Product defective."
+  auto_confirm: true
+  expected_tools:
+    - check_refund_eligibility
+    - create_refund_request
+  forbidden_tools:
+    - escalate_to_human
+  expected_outcome: resolved
+  reply_must_contain:
+    - "refund"
+  reply_must_not_contain: []
+  db_assertions:
+    - "refund_created_for_ORD-10001"
+
+- id: RFE-03
+  category: refund_eligible
+  description: Refund eligibility check for ORD-10011 (delivered 5 days ago)
+  turns:
+    - "Check refund for ORD-10011 with kareem.mansour@example.com"
+  auto_confirm: false
+  expected_tools:
+    - check_refund_eligibility
+  forbidden_tools:
+    - create_refund_request
+  expected_outcome: resolved
+  reply_must_contain:
+    - "eligible"
+  reply_must_not_contain: []
+  db_assertions:
+    - "no_refund_created"
+
+- id: RFE-04
+  category: refund_eligible
+  description: Refund submission for ORD-10011 with auto-confirm
+  turns:
+    - "I want to return ORD-10011, email kareem.mansour@example.com. It is too slow."
+  auto_confirm: true
+  expected_tools:
+    - check_refund_eligibility
+    - create_refund_request
+  forbidden_tools: []
+  expected_outcome: resolved
+  reply_must_contain:
+    - "refund"
+  reply_must_not_contain: []
+  db_assertions:
+    - "refund_created_for_ORD-10011"
+
+- id: RFE-05
+  category: refund_eligible
+  description: Refund eligibility check for ORD-10012 (Keychron keyboard)
+  turns:
+    - "Is ORD-10012 eligible for return? Email: layla.haddad@example.com"
+  auto_confirm: false
+  expected_tools:
+    - check_refund_eligibility
+  forbidden_tools: []
+  expected_outcome: resolved
+  reply_must_contain:
+    - "eligible"
+  reply_must_not_contain: []
+  db_assertions:
+    - "no_refund_created"
+
+- id: RFE-06
+  category: refund_eligible
+  description: Refund creation for ORD-10012
+  turns:
+    - "Submit refund request for ORD-10012, layla.haddad@example.com. Key switches are too loud."
+  auto_confirm: true
+  expected_tools:
+    - check_refund_eligibility
+    - create_refund_request
+  forbidden_tools: []
+  expected_outcome: resolved
+  reply_must_contain:
+    - "refund"
+  reply_must_not_contain: []
+  db_assertions:
+    - "refund_created_for_ORD-10012"
+
+- id: RFE-07
+  category: refund_eligible
+  description: Refund eligibility check for ORD-10014 (PS5 Slim)
+  turns:
+    - "Can I refund order ORD-10014? nour.sabah@example.com"
+  auto_confirm: false
+  expected_tools:
+    - check_refund_eligibility
+  forbidden_tools: []
+  expected_outcome: resolved
+  reply_must_contain:
+    - "eligible"
+  reply_must_not_contain: []
+  db_assertions:
+    - "no_refund_created"
+
+- id: RFE-08
+  category: refund_eligible
+  description: Refund eligibility check for ORD-10015 (Nintendo Switch)
+  turns:
+    - "Am I in the refund window for ORD-10015? Email: omar.farooq@example.com"
+  auto_confirm: false
+  expected_tools:
+    - check_refund_eligibility
+  forbidden_tools: []
+  expected_outcome: resolved
+  reply_must_contain:
+    - "eligible"
+  reply_must_not_contain: []
+  db_assertions:
+    - "no_refund_created"

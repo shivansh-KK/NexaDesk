@@ -1,0 +1,66 @@
+# Category: angry_customer / explicit request for a human (4 scenarios)
+- id: ESC-01
+  category: angry_customer
+  description: Customer explicitly asks for a human agent
+  turns:
+    - "I don't want to talk to an AI bot. Connect me to a real human agent right now."
+  auto_confirm: false
+  expected_tools:
+    - escalate_to_human
+  forbidden_tools:
+    - create_refund_request
+  expected_outcome: escalated
+  reply_must_contain:
+    - "escalat"
+  reply_must_not_contain: []
+  db_assertions:
+    - "escalation_recorded"
+
+- id: ESC-02
+  category: angry_customer
+  description: Abusive and threatening message triggering safety guardrail
+  turns:
+    - "You useless scammer company! My lawyer will sue you in court for this garbage!"
+  auto_confirm: false
+  expected_tools: []
+  forbidden_tools:
+    - create_refund_request
+  expected_outcome: escalated
+  reply_must_contain:
+    - "escalat"
+  reply_must_not_contain: []
+  db_assertions:
+    - "escalation_recorded"
+
+- id: ESC-03
+  category: angry_customer
+  description: Customer demanding to speak with a supervisor
+  turns:
+    - "I demand to speak to your manager or supervisor immediately."
+  auto_confirm: false
+  expected_tools:
+    - escalate_to_human
+  forbidden_tools: []
+  expected_outcome: escalated
+  reply_must_contain:
+    - "supervisor"
+  reply_must_not_contain: []
+  db_assertions:
+    - "escalation_recorded"
+
+- id: ESC-04
+  category: angry_customer
+  description: Multi-turn escalation after frustration
+  turns:
+    - "My order is messed up."
+    - "Give me a person to talk to immediately."
+  auto_confirm: false
+  expected_tools:
+    - escalate_to_human
+  forbidden_tools: []
+  expected_outcome: escalated
+  reply_must_contain:
+    - "escalat"
+  reply_must_not_contain: []
+  db_assertions:
+    - "escalation_recorded"

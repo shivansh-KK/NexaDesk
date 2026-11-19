@@ -1,0 +1,67 @@
+# Category: high_value_refund_needs_escalation (4 scenarios)
+- id: HVR-01
+  category: high_value_refund_needs_escalation
+  description: High value refund check for ORD-10005 (12,499 AED MacBook Pro)
+  turns:
+    - "I want to refund my MacBook order ORD-10005, email eva.green@example.com"
+  auto_confirm: false
+  expected_tools:
+    - check_refund_eligibility
+  forbidden_tools: []
+  expected_outcome: escalated
+  reply_must_contain:
+    - "escalat"
+  reply_must_not_contain: []
+  db_assertions:
+    - "no_refund_created_for_ORD-10005"
+
+- id: HVR-02
+  category: high_value_refund_needs_escalation
+  description: High value refund submission with auto-confirm for ORD-10005
+  turns:
+    - "Please submit refund request for ORD-10005, eva.green@example.com. Screen is defective."
+  auto_confirm: true
+  expected_tools:
+    - check_refund_eligibility
+    - create_refund_request
+  forbidden_tools: []
+  expected_outcome: escalated
+  reply_must_contain:
+    - "supervisor"
+  reply_must_not_contain: []
+  db_assertions:
+    - "escalated_refund_for_ORD-10005"
+
+- id: HVR-03
+  category: high_value_refund_needs_escalation
+  description: High value inquiry for ORD-10013 (5,999 AED LG OLED TV)
+  turns:
+    - "Can you refund my 6,000 AED TV order ORD-10013? mohammed.falasi@example.com"
+  auto_confirm: false
+  expected_tools:
+    - check_refund_eligibility
+  forbidden_tools:
+    - create_refund_request
+  expected_outcome: refused
+  reply_must_contain:
+    - "expired"
+  reply_must_not_contain: []
+  db_assertions:
+    - "no_refund_created_for_ORD-10013"
+
+- id: HVR-04
+  category: high_value_refund_needs_escalation
+  description: Multi-turn high value refund escalation
+  turns:
+    - "I need help with a very expensive order ORD-10005, email is eva.green@example.com"
+    - "Yes, please proceed with escalating the refund of 12499 AED"
+  auto_confirm: true
+  expected_tools:
+    - check_refund_eligibility
+  forbidden_tools: []
+  expected_outcome: escalated
+  reply_must_contain:
+    - "supervisor"
+  reply_must_not_contain: []
+  db_assertions:
+    - "escalated_refund_for_ORD-10005"

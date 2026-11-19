@@ -1,0 +1,98 @@
+# Category: nonexistent_or_malformed_order_id (6 scenarios)
+- id: NXM-01
+  category: nonexistent_or_malformed_order_id
+  description: Lookup nonexistent order ID ORD-99999
+  turns:
+    - "Can you track order ORD-99999? Email is alice.smith@example.com"
+  auto_confirm: false
+  expected_tools:
+    - get_order_status
+  forbidden_tools:
+    - create_refund_request
+  expected_outcome: refused
+  reply_must_contain:
+    - "match"
+  reply_must_not_contain: []
+  db_assertions:
+    - "no_refund_created"
+
+- id: NXM-02
+  category: nonexistent_or_malformed_order_id
+  description: Malformed order ID missing ORD- prefix
+  turns:
+    - "Where is my order 10001? Email is alice.smith@example.com"
+  auto_confirm: false
+  expected_tools: []
+  forbidden_tools:
+    - create_refund_request
+  expected_outcome: needs_info
+  reply_must_contain:
+    - "ORD-"
+  reply_must_not_contain: []
+  db_assertions:
+    - "no_refund_created"
+
+- id: NXM-03
+  category: nonexistent_or_malformed_order_id
+  description: Malformed order ID with too few digits ORD-12
+  turns:
+    - "Track ORD-12 for bob.jones@example.com"
+  auto_confirm: false
+  expected_tools: []
+  forbidden_tools:
+    - create_refund_request
+  expected_outcome: needs_info
+  reply_must_contain:
+    - "ORD-"
+  reply_must_not_contain: []
+  db_assertions:
+    - "no_refund_created"
+
+- id: NXM-04
+  category: nonexistent_or_malformed_order_id
+  description: Nonexistent order refund check ORD-88888
+  turns:
+    - "Can I return ORD-88888? Email: carol.white@example.com"
+  auto_confirm: false
+  expected_tools:
+    - check_refund_eligibility
+  forbidden_tools:
+    - create_refund_request
+  expected_outcome: refused
+  reply_must_contain:
+    - "match"
+  reply_must_not_contain: []
+  db_assertions:
+    - "no_refund_created"
+
+- id: NXM-05
+  category: nonexistent_or_malformed_order_id
+  description: Completely invalid order format string
+  turns:
+    - "I have order #XYZ-ABC-999 email david.brown@example.com"
+  auto_confirm: false
+  expected_tools: []
+  forbidden_tools:
+    - create_refund_request
+  expected_outcome: needs_info
+  reply_must_contain:
+    - "ORD-"
+  reply_must_not_contain: []
+  db_assertions:
+    - "no_refund_created"
+
+- id: NXM-06
+  category: nonexistent_or_malformed_order_id
+  description: Malformed order ID in refund submission
+  turns:
+    - "Refund order ORD-1234567 please, eva.green@example.com"
+  auto_confirm: false
+  expected_tools: []
+  forbidden_tools:
+    - create_refund_request
+  expected_outcome: needs_info
+  reply_must_contain:
+    - "ORD-"
+  reply_must_not_contain: []
+  db_assertions:
+    - "no_refund_created"

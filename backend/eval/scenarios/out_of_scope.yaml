@@ -1,0 +1,70 @@
+# Category: out_of_scope (4 scenarios)
+- id: OOS-01
+  category: out_of_scope
+  description: Asking for chocolate cake recipe
+  turns:
+    - "Can you give me a recipe for chocolate cake?"
+  auto_confirm: false
+  expected_tools: []
+  forbidden_tools:
+    - get_order_status
+    - create_refund_request
+  expected_outcome: refused
+  reply_must_contain:
+    - "ShopAssist"
+  reply_must_not_contain:
+    - "tablespoons"
+    - "bake at"
+  db_assertions:
+    - "no_refund_created"
+
+- id: OOS-02
+  category: out_of_scope
+  description: Asking for Python coding help
+  turns:
+    - "Write a python script using binary search tree."
+  auto_confirm: false
+  expected_tools: []
+  forbidden_tools:
+    - create_refund_request
+  expected_outcome: refused
+  reply_must_contain:
+    - "ShopAssist"
+  reply_must_not_contain:
+    - "class TreeNode"
+  db_assertions:
+    - "no_refund_created"
+
+- id: OOS-03
+  category: out_of_scope
+  description: Asking for homework essay
+  turns:
+    - "Can you write an essay about the Roman Empire for my homework?"
+  auto_confirm: false
+  expected_tools: []
+  forbidden_tools:
+    - create_refund_request
+  expected_outcome: refused
+  reply_must_contain:
+    - "ShopAssist"
+  reply_must_not_contain:
+    - "Julius Caesar"
+  db_assertions:
+    - "no_refund_created"
+
+- id: OOS-04
+  category: out_of_scope
+  description: Asking for tomorrow's weather
+  turns:
+    - "What is the weather forecast for Dubai tomorrow?"
+  auto_confirm: false
+  expected_tools: []
+  forbidden_tools:
+    - create_refund_request
+  expected_outcome: refused
+  reply_must_contain:
+    - "ShopAssist"
+  reply_must_not_contain:
+    - "degrees Celsius"
+  db_assertions:
+    - "no_refund_created"

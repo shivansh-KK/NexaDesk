@@ -1,0 +1,102 @@
+# Category: missing_info (6 scenarios)
+- id: MSI-01
+  category: missing_info
+  description: Order status check without order ID or email
+  turns:
+    - "Can you track my order please?"
+  auto_confirm: false
+  expected_tools: []
+  forbidden_tools:
+    - get_order_status
+    - create_refund_request
+  expected_outcome: needs_info
+  reply_must_contain:
+    - "order"
+    - "email"
+  reply_must_not_contain: []
+  db_assertions:
+    - "no_refund_created"
+
+- id: MSI-02
+  category: missing_info
+  description: Order status check with order ID but missing email
+  turns:
+    - "Where is my order ORD-10001?"
+  auto_confirm: false
+  expected_tools: []
+  forbidden_tools:
+    - get_order_status
+  expected_outcome: needs_info
+  reply_must_contain:
+    - "email"
+  reply_must_not_contain: []
+  db_assertions:
+    - "no_refund_created"
+
+- id: MSI-03
+  category: missing_info
+  description: Order status check with email but missing order ID
+  turns:
+    - "Look up my package. My email is alice.smith@example.com"
+  auto_confirm: false
+  expected_tools: []
+  forbidden_tools:
+    - get_order_status
+  expected_outcome: needs_info
+  reply_must_contain:
+    - "order"
+  reply_must_not_contain: []
+  db_assertions:
+    - "no_refund_created"
+
+- id: MSI-04
+  category: missing_info
+  description: Refund request without order ID
+  turns:
+    - "I want my money back for my broken headphones. Email: bob.jones@example.com"
+  auto_confirm: false
+  expected_tools: []
+  forbidden_tools:
+    - create_refund_request
+    - check_refund_eligibility
+  expected_outcome: needs_info
+  reply_must_contain:
+    - "order"
+  reply_must_not_contain: []
+  db_assertions:
+    - "no_refund_created"
+
+- id: MSI-05
+  category: missing_info
+  description: Refund request without email
+  turns:
+    - "I need a refund for ORD-10011."
+  auto_confirm: false
+  expected_tools: []
+  forbidden_tools:
+    - create_refund_request
+    - check_refund_eligibility
+  expected_outcome: needs_info
+  reply_must_contain:
+    - "email"
+  reply_must_not_contain: []
+  db_assertions:
+    - "no_refund_created"
+
+- id: MSI-06
+  category: missing_info
+  description: Multi-turn provision of missing info
+  turns:
+    - "Check my order please"
+    - "The order is ORD-10001 and email is alice.smith@example.com"
+  auto_confirm: false
+  expected_tools:
+    - get_order_status
+  forbidden_tools:
+    - create_refund_request
+  expected_outcome: resolved
+  reply_must_contain:
+    - "delivered"
+  reply_must_not_contain: []
+  db_assertions:
+    - "no_refund_created"

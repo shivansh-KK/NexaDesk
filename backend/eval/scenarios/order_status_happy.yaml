@@ -1,0 +1,173 @@
+# Category: order_status_happy (10 scenarios)
+- id: OSH-01
+  category: order_status_happy
+  description: Order status check for delivered order ORD-10001
+  turns:
+    - "Can you check the status of my order ORD-10001? My email is alice.smith@example.com"
+  auto_confirm: false
+  expected_tools:
+    - get_order_status
+  forbidden_tools:
+    - create_refund_request
+    - create_support_ticket
+  expected_outcome: resolved
+  reply_must_contain:
+    - "delivered"
+  reply_must_not_contain:
+    - "cancelled"
+  db_assertions:
+    - "no_refund_created"
+
+- id: OSH-02
+  category: order_status_happy
+  description: Order status check for ORD-10002
+  turns:
+    - "Hi, please give me tracking information on ORD-10002. Email: bob.jones@example.com"
+  auto_confirm: false
+  expected_tools:
+    - get_order_status
+  forbidden_tools:
+    - create_refund_request
+  expected_outcome: resolved
+  reply_must_contain:
+    - "delivered"
+  reply_must_not_contain: []
+  db_assertions:
+    - "no_refund_created"
+
+- id: OSH-03
+  category: order_status_happy
+  description: Order status check for cancelled order ORD-10003
+  turns:
+    - "Where is my order ORD-10003? Email carol.white@example.com"
+  auto_confirm: false
+  expected_tools:
+    - get_order_status
+  forbidden_tools:
+    - create_refund_request
+  expected_outcome: resolved
+  reply_must_contain:
+    - "cancelled"
+  reply_must_not_contain: []
+  db_assertions:
+    - "no_refund_created"
+
+- id: OSH-04
+  category: order_status_happy
+  description: Order status check for returned order ORD-10004
+  turns:
+    - "Check status for ORD-10004 david.brown@example.com"
+  auto_confirm: false
+  expected_tools:
+    - get_order_status
+  forbidden_tools:
+    - create_refund_request
+  expected_outcome: resolved
+  reply_must_contain:
+    - "returned"
+  reply_must_not_contain: []
+  db_assertions:
+    - "no_refund_created"
+
+- id: OSH-05
+  category: order_status_happy
+  description: Order status check for high value order ORD-10005
+  turns:
+    - "What is the status of ORD-10005? Email eva.green@example.com"
+  auto_confirm: false
+  expected_tools:
+    - get_order_status
+  forbidden_tools:
+    - create_refund_request
+  expected_outcome: resolved
+  reply_must_contain:
+    - "delivered"
+  reply_must_not_contain: []
+  db_assertions:
+    - "no_refund_created"
+
+- id: OSH-06
+  category: order_status_happy
+  description: Order status check for ORD-10009 processing order
+  turns:
+    - "Has ORD-10009 shipped yet? My email is isla.taylor@example.com"
+  auto_confirm: false
+  expected_tools:
+    - get_order_status
+  forbidden_tools:
+    - create_refund_request
+  expected_outcome: resolved
+  reply_must_contain:
+    - "processing"
+  reply_must_not_contain: []
+  db_assertions:
+    - "no_refund_created"
+
+- id: OSH-07
+  category: order_status_happy
+  description: Order status check for ORD-10010 shipped order
+  turns:
+    - "Track my shipment for ORD-10010, jack.wilson@example.com"
+  auto_confirm: false
+  expected_tools:
+    - get_order_status
+  forbidden_tools:
+    - create_refund_request
+  expected_outcome: resolved
+  reply_must_contain:
+    - "shipped"
+  reply_must_not_contain: []
+  db_assertions:
+    - "no_refund_created"
+
+- id: OSH-08
+  category: order_status_happy
+  description: Order status check for ORD-10011
+  turns:
+    - "Status of ORD-10011 please. Email is kareem.mansour@example.com"
+  auto_confirm: false
+  expected_tools:
+    - get_order_status
+  forbidden_tools:
+    - create_refund_request
+  expected_outcome: resolved
+  reply_must_contain:
+    - "delivered"
+  reply_must_not_contain: []
+  db_assertions:
+    - "no_refund_created"
+
+- id: OSH-09
+  category: order_status_happy
+  description: Order status check for ORD-10014
+  turns:
+    - "When was ORD-10014 delivered? Email: nour.sabah@example.com"
+  auto_confirm: false
+  expected_tools:
+    - get_order_status
+  forbidden_tools:
+    - create_refund_request
+  expected_outcome: resolved
+  reply_must_contain:
+    - "delivered"
+  reply_must_not_contain: []
+  db_assertions:
+    - "no_refund_created"
+
+- id: OSH-10
+  category: order_status_happy
+  description: Multi-turn order inquiry for ORD-10015
+  turns:
+    - "I want to track an order."
+    - "The order ID is ORD-10015 and my email is omar.farooq@example.com"
+  auto_confirm: false
+  expected_tools:
+    - get_order_status
+  forbidden_tools:
+    - create_refund_request
+  expected_outcome: resolved
+  reply_must_contain:
+    - "delivered"
+  reply_must_not_contain: []
+  db_assertions:
+    - "no_refund_created"
