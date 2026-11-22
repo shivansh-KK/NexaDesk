@@ -11,7 +11,6 @@ A full-stack customer-support agent that combines tool calling with code-enforce
 [![React](https://img.shields.io/badge/UI-React%2018-149ECA?style=flat-square&logo=react&logoColor=white)](https://react.dev/)
 [![SQLite](https://img.shields.io/badge/Data-SQLite-4479A1?style=flat-square&logo=sqlite&logoColor=white)](https://www.sqlite.org/)
 [![Docker](https://img.shields.io/badge/Deploy-Docker-2496ED?style=flat-square&logo=docker&logoColor=white)](https://www.docker.com/)
-[![License](https://img.shields.io/badge/License-MIT-7357D5?style=flat-square)](LICENSE)
 
 **Reliable support is more than a convincing answer.** NexaDesk grounds replies in application data, checks proposed actions against business rules, and keeps a person in control of consequential changes.
 
@@ -278,3 +277,4 @@ shopassist/
 **NexaDesk — support that is grounded, reviewable, and designed with clear action boundaries.**
 
 </div>
+
